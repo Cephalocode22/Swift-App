@@ -1,0 +1,95 @@
+import SwiftUI
+
+struct BlackjackView: View {
+    @StateObject var game = BlackjackGame()
+
+    var body: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Text("Player Hand:").padding()
+                Spacer()
+                Text("\(game.playerHand.totalScore)")
+            }
+            HStack {
+                ForEach(game.playerHand.cards) { card in
+                    CardView(card: card)
+                }
+            }
+            Button("Hit", action: game.playerHit).disabled(game.isGameOver)
+            Spacer()
+            HStack {
+                Text("Dealer Hand:").padding()
+                Spacer()
+                if game.isDealerTurn {
+                    Text("??")
+                } else {
+                    Text("\(game.dealerHand.totalScore)")
+                }
+            }
+            HStack {
+                ForEach(game.dealerHand.cards) { card in
+                    CardView(card: card)
+                }
+            }
+            Button("Stand", action: game.playerStand).disabled(game.isGameOver)
+            Spacer()
+            if game.isGameOver {
+                Text(game.resultMessage).padding()
+                Button("Reset Game", action: game.resetGame)
+            }
+        }
+    }
+}
+
+class BlackjackGame: ObservableObject {
+    @Published var deck = Deck()
+    @Published var playerHand = Hand()
+    @Published var dealerHand = Hand()
+    @Published var isDealerTurn = false
+    @Published var isGameOver = false
+
+    var resultMessage: String {
+        if playerHand.totalScore > 21 {
+            return "Bust! Dealer Wins!"
+        } else if dealerHand.totalScore > 21 {
+            return "Dealer Bust! Player Wins!"
+        } else if isGameOver {
+            if dealerHand.totalScore > playerHand.totalScore {
+                return "Dealer Wins!"
+            } else if dealerHand.totalScore < playerHand.totalScore {
+                return "Player Wins!"
+            } else {
+                return "Push"
+            }
+        }
+        return ""
+    }
+
+    func playerHit() {
+        playerHand.addCard(deck.draw())
+        checkGameOver()
+    }
+
+    func playerStand() {
+        isDealerTurn = true
+        while dealerHand.totalScore < 17 {
+            dealerHand.addCard(deck.draw())
+        }
+        isGameOver = true
+    }
+
+    func checkGameOver() {
+        if playerHand.totalScore > 21 {
+            isGameOver = true
+        }
+    }
+
+    func resetGame() {
+        deck = Deck()
+        playerHand = Hand()
+        dealerHand = Hand()
+        isDealerTurn = false
+        isGameOver = false
+    }
+}
