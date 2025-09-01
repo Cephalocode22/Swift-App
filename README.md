@@ -1,10 +1,10 @@
-# 🃏 Swift Blackjack Game
+# Swift Blackjack Game
 
 A minimalist Blackjack game built with **SwiftUI**, designed to showcase basic state management, UI layout, and gameplay logic. This app demonstrates how to build a turn-based game using modern Swift paradigms like `@StateObject` and reactive updates.
 
 ---
 
-## 🎮 Features
+## Features
 
 - Hit / Stand gameplay logic
 - Dealer AI that draws to 17
@@ -14,7 +14,7 @@ A minimalist Blackjack game built with **SwiftUI**, designed to showcase basic s
 
 ---
 
-## 🧠 How It Works
+## How It Works
 
 - `BlackjackGame`: Observable class that manages the deck, player and dealer hands, game state, and result messages.
 - `BlackjackView`: SwiftUI view that renders the UI, buttons, and score logic.
@@ -23,7 +23,7 @@ A minimalist Blackjack game built with **SwiftUI**, designed to showcase basic s
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠Tech Stack
 
 - `SwiftUI`
 - `@StateObject` and `@Published` properties
@@ -31,7 +31,7 @@ A minimalist Blackjack game built with **SwiftUI**, designed to showcase basic s
 
 ---
 
-## 🚀 Running the App
+## Running the App
 
 1. Open the project in **Xcode** (minimum version: 12.0)
 2. Build and run on the iOS Simulator or your device
